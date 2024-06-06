@@ -1,10 +1,10 @@
-判断是否初次登入的接口文档
+用户删除的接口文档
 =================================
 
 ### API编号
 
 ### 功能简介
-* 判断是否初次登入
+* 用户删除
 
 ### 参数格式
 
@@ -15,11 +15,11 @@
 
  参数           |参数说明                 |  类型       |   示例         |是否允许为空|  限制条件
 ----------------|-------------------------|-------------|----------------|------------|---------------------
-
+username        |用户名                   |string       |13917951002     |否          |手机号
 
 ### 示例代码
 
-    GET /accountManager/v1/isFirstLogin HTTP/1.0
+    POST /accountManager/v1/userDelete?username=13917951002 HTTP/1.0
     Host:127.0.0.1:80
     Content-Length:0
     Content-Type:application/json
@@ -28,14 +28,13 @@
 ### 返回body示例
 
 * 失败: `{"ERRORCODE":10001, "RESULT":"internal error!"}`
-* 成功: `{"ERRORCODE":0,"RESULT":{"isFirstLogin":true}}`
+* 成功: `{"ERRORCODE":0,"RESULT":"ok!"}`
 
 
 ### 返回结果参数
 
 参数            | 参数说明
 ----------------|-------------------------------
-isFirstLogin    | 是否初次登入
 
 
 ### 错误编码

@@ -71,6 +71,7 @@ end
 
 -->>SELECT = "table"
 -->>INSERT = "number"
+-->>DELETE = "number"
 -->>UPDATE = "number"
 -->>AFFAIRS = "boolean"
 -->>SQL_ERR = "nil"
@@ -183,6 +184,7 @@ local function mysql_cmd(sqlname, cmds, ...)
 	local mysql_api_list = {
 		SELECT = mysql_api_execute,
 		INSERT = mysql_api_execute,
+		DELETE = mysql_api_execute,
 		UPDATE = mysql_api_execute,
 		REPLACE = mysql_api_execute,
 		AFFAIRS = mysql_api_commit,
