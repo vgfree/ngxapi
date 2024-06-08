@@ -1,10 +1,10 @@
-用户创建的接口文档
+修改管理信息的接口文档
 =================================
 
 ### API编号
 
 ### 功能简介
-* 用户创建
+* 修改管理信息
 
 ### 参数格式
 
@@ -15,21 +15,20 @@
 
  参数           |参数说明                 |  类型       |   示例         |是否允许为空|  限制条件
 ----------------|-------------------------|-------------|----------------|------------|---------------------
-username        |用户名                   |string       |13917951002     |否          |手机号
-password        |密码                     |string       |love@13917951002|否          |字母+数字+特殊符号
+secret          |管理员密码               |string       |新密码:88888888 |否          |无
+
 
 ### 示例代码
 
-    POST /accountManager/v1/userCreate?username=13917951002&password=love%4013917951002 HTTP/1.0
+    GET /accountManager/v1/adminModify?secret=88888888 HTTP/1.0
     Host:127.0.0.1:80
     Content-Length:0
     Content-Type:application/json
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4MTc2MzJ9.SxT8X-7Xg0-ei17G1HtKzbB2ADR-TaVwOX7I0-PLCw4
 
-
 ### 返回body示例
 
-* 失败: `{"ERRORCODE":10001, "RESULT":"internal error!"}`
+* 失败: `{"ERRORCODE":20002, "RESULT":"secret is wrong!"}`
 * 成功: `{"ERRORCODE":0,"RESULT":"ok!"}`
 
 
