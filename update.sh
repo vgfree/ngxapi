@@ -11,4 +11,5 @@ cp -r open /opt/ownstor/ownstor-api/
 cp -r account_manager /opt/ownstor/ownstor-api/
 
 cp nginx.conf /etc/nginx/nginx.conf
+make -C /opt/ownstor/ownstor-api/open/lib/
 /usr/sbin/nginx -s reload

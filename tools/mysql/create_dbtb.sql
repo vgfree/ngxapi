@@ -6,6 +6,13 @@ CREATE DATABASE IF NOT EXISTS ownstor_db;
 -- 使用刚刚创建的数据库或已存在的数据库
 USE ownstor_db;
 
+CREATE TABLE sys_info (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    secret VARCHAR(64) NOT NULL,
+    scale_token VARCHAR(64) NOT NULL,
+    nas_uuid VARCHAR(64) NOT NULL
+);
+
 CREATE TABLE user_list (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(32) NOT NULL,

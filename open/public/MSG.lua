@@ -11,6 +11,7 @@ local MSG = {
 
 	MSG_ERROR_USER_EXIST		                        ={20000, "user is already exist!"},
 	MSG_ERROR_USER_NOT_EXIST                                ={20001, "User does not exist!"},
+	MSG_ERROR_SECRET                                        ={20002, "secret is wrong!"},
 }
 
 local function fmt_err_message(err)

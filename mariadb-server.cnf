@@ -9,6 +9,9 @@
 [mysqld]
 bind-address = 127.0.0.1
 port = 3306
+wait_timeout = 86400  # 设置为1天
+interactive_timeout = 86400  # 设置为1天
+max_connections = 3000  # 根据需要设置
 # skip-networking
 
 # Galera-related settings

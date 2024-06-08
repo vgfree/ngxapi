@@ -88,6 +88,11 @@ local function mysql_api_execute(db, sql)
 			assert(false, tostring(err))
 		end
 
+		local break_conn = string.find(err, "LuaSQL%:%serror%sexecuting%squery%.%sMySQL%:%sServer%shas%sgone%saway")
+		if break_conn then
+			assert(false, tostring(err))
+		end
+
 		---- add by jiang z.s. 2015-10-13
 		local break_conn = string.find(err, "LuaSQL%:%serror%sexecuting%squery%.%sMySQL%:%sDeadlock%sfound%swhen%strying%sto%sget%slock%;%stry%srestarting%stransaction")
 		if break_conn then
@@ -125,6 +130,17 @@ local function mysql_api_procedure(db, sql)
 		if break_conn then
 			assert(false, tostring(err))
 		end
+
+		local break_conn = string.find(err, "LuaSQL%:%serror%sexecuting%squery%.%sMySQL%:%sServer%shas%sgone%saway")
+		if break_conn then
+			assert(false, tostring(err))
+		end
+
+		local break_conn = string.find(err, "LuaSQL%:%serror%sexecuting%squery%.%sMySQL%:%sDeadlock%sfound%swhen%strying%sto%sget%slock%;%stry%srestarting%stransaction")
+		if break_conn then
+			assert(false, tostring(err))
+		end
+		
 		return nil
 	end
 	if type(res) == "number" then
