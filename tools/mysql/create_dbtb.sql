@@ -1,4 +1,4 @@
-DROP DATABASE ownstor_db;
+DROP DATABASE IF EXISTS ownstor_db;
 
 -- 创建一个数据库（如果它不存在的话）
 CREATE DATABASE IF NOT EXISTS ownstor_db;

@@ -8,7 +8,7 @@
 
 ### 参数格式
 
-* 所有 API 都以 **GET/POST** 方式请求，且传送方式为 **key-value键值对**.
+* 所有 API 都以 **GET/POST/DELETE** 方式请求，且传送方式为 **key-value键值对**.
 
 ### 输入参数
 
@@ -19,12 +19,13 @@ username        |用户名                   |string       |13917951002     |否
 
 ### 示例代码
 
-    POST /accountManager/v1/userDelete?username=13917951002 HTTP/1.0
+    DELETE /accountManager/v1/userDelete HTTP/1.0
     Host:127.0.0.1:80
     Content-Length:0
     Content-Type:application/json
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4MTc2MzJ9.SxT8X-7Xg0-ei17G1HtKzbB2ADR-TaVwOX7I0-PLCw4
 
+    {"username":"13917951002"}
 
 ### 返回body示例
 

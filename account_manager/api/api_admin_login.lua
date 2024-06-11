@@ -3,6 +3,7 @@ local gosay = require('gosay')
 local MSG = require('MSG')
 local cjson = require("cjson")
 local jwt = require("resty.jwt")
+local sys = require("sys")
 local os = require("os")
 
 local sql_fmt = {
@@ -30,7 +31,18 @@ end
 
 local function handle()
 	local args = ngx.req.get_uri_args()
-	local secret = args["secret"]
+	local body = ngx.req.get_body_data()
+	local res = cjson.decode(body)
+	if not res then
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_REQ_ARGS"))
+		return
+	end
+	local secret = res["secret"]
+	if not secret then
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_REQ_ARGS"))
+		return
+	end
+
 	local token = admin_sign()
 
 	local ok, res = mysql_api.cmd('ownstor___ownstor_db', 'SELECT', sql_fmt["one_info"])
@@ -42,7 +54,15 @@ local function handle()
 	if #res == 0 then
 		only.log('E','secret %s!', secret)
 		if secret == "123456" then
-			local sql = string.format(sql_fmt["one_init"], "", "")
+			local cmd = "/usr/sbin/dmidecode -s system-uuid 2>&1"
+			local ok, nas_uuid = sys.execute(cmd)
+			if not ok then
+				nas_uuid = "00000000-0000-0000-0000-000000000000"
+			else
+				nas_uuid = string.gsub(nas_uuid, "\n", "")
+			end
+
+			local sql = string.format(sql_fmt["one_init"], "", nas_uuid)
 			local ok, res = mysql_api.cmd('ownstor___ownstor_db', 'INSERT', sql)
 			if not ok then
 				only.log('E','select mysql failed!')
@@ -52,7 +72,7 @@ local function handle()
 
 			local info = {}
 			info["scale_token"] = ""
-			info["nas_uuid"] = ""
+			info["nas_uuid"] = nas_uuid
 			info["token"] = token
 			local msg = cjson.encode(info)
 			gosay.out_message(MSG.fmt_api_message(msg))

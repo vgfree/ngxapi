@@ -1,4 +1,5 @@
 local sys = require('sys')
+local cjson = require("cjson")
 local gosay = require('gosay')
 local mysql_api = require('mysql_pool_api')
 local MSG = require('MSG')
@@ -46,7 +47,17 @@ local function handle()
 	-->> 1)检查参数
 	check_args(args)
 
-	local username = args["username"]
+	local body = ngx.req.get_body_data()
+	local res = cjson.decode(body)
+	if not res then
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_REQ_ARGS"))
+		return
+	end
+	local username = res["username"]
+	if not username then
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_REQ_ARGS"))
+		return
+	end
 
 	local sql = string.format(sql_fmt["user_del"], username)
 	only.log('I','sql:%s', sql)

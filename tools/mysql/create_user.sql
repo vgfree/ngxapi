@@ -1,4 +1,4 @@
-DROP USER 'ownstor'@'localhost';
+DROP USER IF EXISTS 'ownstor'@'localhost';
 
 -- 创建新用户并设置密码  
 CREATE USER 'ownstor'@'localhost' IDENTIFIED BY '123456';  

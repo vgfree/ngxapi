@@ -8,7 +8,7 @@
 
 ### 参数格式
 
-* 所有 API 都以 **GET/POST** 方式请求，且传送方式为 **key-value键值对**.
+* 所有 API 都以 **GET/POST/DELETE** 方式请求，且传送方式为 **key-value键值对**.
 
 ### 输入参数
 
@@ -20,12 +20,13 @@ password        |密码                     |string       |love@13917951002|否 
 
 ### 示例代码
 
-    POST /accountManager/v1/userCreate?username=13917951002&password=love%4013917951002 HTTP/1.0
+    POST /accountManager/v1/userCreate HTTP/1.0
     Host:127.0.0.1:80
     Content-Length:0
     Content-Type:application/json
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4MTc2MzJ9.SxT8X-7Xg0-ei17G1HtKzbB2ADR-TaVwOX7I0-PLCw4
 
+    {"username":"13917951002","password":"love@123456"}
 
 ### 返回body示例
 

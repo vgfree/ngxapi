@@ -8,7 +8,7 @@
 
 ### 参数格式
 
-* 所有 API 都以 **GET/POST** 方式请求，且传送方式为 **key-value键值对**.
+* 所有 API 都以 **GET/POST/DELETE** 方式请求，且传送方式为 **key-value键值对**.
 
 ### 输入参数
 
@@ -20,15 +20,17 @@ secret          |管理员密码               |string       |默认密码:12345
 
 ### 示例代码
 
-    GET /accountManager/v1/adminLogin?secret=123456 HTTP/1.0
+    POST /accountManager/v1/adminLogin HTTP/1.0
     Host:127.0.0.1:80
     Content-Length:0
     Content-Type:application/json
 
+    {"secret":"123456"}
+
 ### 返回body示例
 
 * 失败: `{"ERRORCODE":20002, "RESULT":"secret is wrong!"}`
-* 成功: `{"ERRORCODE":0, "RESULT":{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTc4MTgzODZ9.-5Zu2Tc2mRVUeQMLKJk5T0FuMY9nzd0FO1o2xLR0ta8","nas_uuid":"","scale_token":""}}`
+* 成功: `{"ERRORCODE":0, "RESULT":{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTc4MTgzODZ9.-5Zu2Tc2mRVUeQMLKJk5T0FuMY9nzd0FO1o2xLR0ta8","nas_uuid":"03000200-0400-0500-0006-000700080009","scale_token":""}}`
 
 
 ### 返回结果参数

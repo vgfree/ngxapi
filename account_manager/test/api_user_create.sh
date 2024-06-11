@@ -1,2 +1,2 @@
-TOKEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4MTc2MzJ9.SxT8X-7Xg0-ei17G1HtKzbB2ADR-TaVwOX7I0-PLCw4'
-curl -v -0 -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:80/accountManager/v1/userCreate?username=13917951002&password=love%4013917951002"
+TOKEN='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTgwMjU1MDB9.Luw4keD8_RYyPArqz_Jk-n91x5pm0EoRVvu2IM3TPjE'
+curl -v -0 -X POST -d '{"username":"13917951002","password":"love@123456"}' -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/accountManager/v1/userCreate"

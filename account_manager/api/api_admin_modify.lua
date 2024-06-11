@@ -1,4 +1,5 @@
 local mysql_api = require('mysql_pool_api')
+local cjson = require("cjson")
 local gosay = require('gosay')
 local MSG = require('MSG')
 local jwt = require("resty.jwt")
@@ -41,7 +42,17 @@ local function handle()
 	-->> 1)检查参数
 	check_args(args)
 
-	local secret = args["secret"]
+	local body = ngx.req.get_body_data()
+	local res = cjson.decode(body)
+	if not res then
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_REQ_ARGS"))
+		return
+	end
+	local secret = res["secret"]
+	if not secret then
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_REQ_ARGS"))
+		return
+	end
 
 	local sql = string.format(sql_fmt["one_update"], secret)
 	local ok, res = mysql_api.cmd('ownstor___ownstor_db', 'UPDATE', sql)

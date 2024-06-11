@@ -8,7 +8,7 @@
 
 ### 参数格式
 
-* 所有 API 都以 **GET/POST** 方式请求，且传送方式为 **key-value键值对**.
+* 所有 API 都以 **GET/POST/DELETE** 方式请求，且传送方式为 **key-value键值对**.
 
 ### 输入参数
 
@@ -20,12 +20,13 @@ secret          |管理员密码               |string       |新密码:88888888
 
 ### 示例代码
 
-    GET /accountManager/v1/adminModify?secret=88888888 HTTP/1.0
+    POST /accountManager/v1/adminModify HTTP/1.0
     Host:127.0.0.1:80
     Content-Length:0
     Content-Type:application/json
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4MTc2MzJ9.SxT8X-7Xg0-ei17G1HtKzbB2ADR-TaVwOX7I0-PLCw4
 
+    {"secret":"88888888"}
 ### 返回body示例
 
 * 失败: `{"ERRORCODE":20002, "RESULT":"secret is wrong!"}`
