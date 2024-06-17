@@ -28,7 +28,8 @@ cutils.so:
 
 socket.so:
 	$(MAKE) -C $(LIB_DIR)/luasocket
-	mv $(LIB_DIR)/luasocket/src/socket.so.3.0-rc1  $(LIB_DIR)/$@
+	mv $(LIB_DIR)/luasocket/src/socket-3.1.0.so $(LIB_DIR)/$@
+	cp $(LIB_DIR)/luasocket/src/socket.lua $(LIB_DIR)/
 
 zlib.so:
 	$(MAKE) -C $(LIB_DIR)/lua-zlib linux

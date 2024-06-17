@@ -14,7 +14,7 @@ OBJS = 		lualog.o lualog_utils.o
 
 INCLUDEDIR =	-I/usr/include/luajit-2.1
 LPATH +=	-I/usr/local/lib
-LIBS +=		-lluajit-5.1 -lexecinfo -lpthread
+LIBS +=		-lluajit-5.1 -lpthread
 TEST_BIN =	/usr/bin/luajit
 TEST_SHL =	./test.lua
 

@@ -46,7 +46,7 @@ INIT_FAIL:
 static int destory(lua_State *L)
 {
 	/* init conhash instance */
-	struct conhash_ring *ring = lua_tointeger(L, 1);
+	struct conhash_ring *ring = (struct conhash_ring *)lua_tointeger(L, 1);
 
 	if (NULL == ring || NULL == ring->root){
 		return 0;
@@ -70,7 +70,7 @@ static int set(lua_State *L)
 		lua_pushboolean(L, 0);
 		return 1;
 	}
-	struct conhash_ring *ring = lua_tointeger(L, 1);
+	struct conhash_ring *ring = (struct conhash_ring *)lua_tointeger(L, 1);
 	if (NULL == ring || NULL == ring->root){
 		lua_pushboolean(L, 0);
 		return 1;
@@ -86,8 +86,8 @@ static int set(lua_State *L)
 	node->next = head;
 	ring->count ++;
 	
-	conhash_set_node(node, node_name, vtnodes);
-        conhash_add_node(ring->root, node);
+	conhash_set_node((struct node_s *)node, node_name, vtnodes);
+        conhash_add_node(ring->root, (struct node_s *)node);
         //printf("virtual nodes number %d\n", conhash_get_vnodes_num(g_conhash));
 	lua_pushboolean(L, 1);
 	return 1;
@@ -126,7 +126,7 @@ static int lookup(lua_State *L)
 		lua_pushnil(L);
 		return 1;
 	}
-	struct conhash_ring *ring = lua_tointeger(L, 1);
+	struct conhash_ring *ring = (struct conhash_ring *)lua_tointeger(L, 1);
 	if (NULL == ring || NULL == ring->root){
 		lua_pushnil(L);
 		return 1;

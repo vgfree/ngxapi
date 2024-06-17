@@ -682,7 +682,7 @@ static int cutils_custom_hash(lua_State *L)
 	return 1;
 }
 
-static size_t lua_domain_to_ip_address(lua_State *L)
+static int lua_domain_to_ip_address(lua_State *L)
 {
 	if (lua_gettop(L) != 1) {
 		lua_pushnil(L);

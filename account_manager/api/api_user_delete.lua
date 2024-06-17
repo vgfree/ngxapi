@@ -1,9 +1,9 @@
-local sys = require('sys')
 local cjson = require("cjson")
 local gosay = require('gosay')
 local mysql_api = require('mysql_pool_api')
 local MSG = require('MSG')
 local jwt = require("resty.jwt")
+local AM_utils = require('AM_utils')
 
 local APP_KEY_LIST = {
 	ownstor_web = "alkIIllmsdk",
@@ -11,6 +11,7 @@ local APP_KEY_LIST = {
 
 local sql_fmt = {
 	user_del = "DELETE FROM user_list WHERE username='%s'",
+	user_list = "SELECT username, password FROM user_list",
 }
 
 local function admin_verify(jwt_token)
@@ -69,7 +70,28 @@ local function handle()
 	end
 
 	local cmd = string.format([[/usr/sbin/userdel -r guest%s]], username)
-	sys.execute(cmd)
+	os.execute(cmd)
+
+	-->> 配置vsftp
+	local ok, res = mysql_api.cmd('ownstor___ownstor_db', 'SELECT', sql_fmt["user_list"])
+	if not ok then
+		only.log('E','select mysql failed!')
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
+		return
+	end
+
+	local list = {}
+	for _, sub in ipairs(res) do
+		list[sub["username"]] = sub["password"]
+	end
+
+	ok = AM_utils.config_vsftp(list)
+	if not ok then
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
+		return
+	end
+
+
 	gosay.out_message(MSG.fmt_err_message("MSG_SUCCESS"))
 end
 
