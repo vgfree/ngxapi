@@ -1,2 +1,2 @@
-TOKEN='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTgwMjU1MDB9.Luw4keD8_RYyPArqz_Jk-n91x5pm0EoRVvu2IM3TPjE'
-curl -v -0 -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8080/accountManager/v1/userList"
+TOKEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkwNDkyMzN9.sb2fNlWSjAKhDmR1Ua3QGG5DieRbmJEQlu7d83pE2XU'
+curl -v -0 -H "Authorization: Bearer $TOKEN" "http://127.0.0.1:8090/accountManager/v1/userList"

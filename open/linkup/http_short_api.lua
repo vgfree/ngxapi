@@ -2,7 +2,6 @@
 -- date: Wed May 15 10:05:29 CST 2013
 local socket = require('socket')
 local string = require('string')
-local utils  = require('utils')
 local only   = require('only')
 local perf   = require('perf')
 

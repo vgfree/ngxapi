@@ -1,0 +1,42 @@
+local string = require("string")
+
+local function config_vsftp(list)
+	local msg = 'homeshare\n123456\n'
+	for username, password in pairs(list) do
+		msg = msg .. username .. "\n" .. password .. "\n"
+	end
+
+	local file = io.open("/tmp/vuser_passwd.conf", "w")
+	if not file then
+		only.log('E', 'open vuser_passwd.conf failed!')
+		return false
+	end
+	file:write(msg)
+	file:close()
+
+	os.execute("/usr/bin/rm -f /opt/data/etc/vsftpd/vuser_passwd.db")
+	os.execute("/usr/bin/db_load -T -t hash -f /tmp/vuser_passwd.conf /opt/data/etc/vsftpd/vuser_passwd.db")
+	os.execute("/usr/bin/rm -f /tmp/vuser_passwd.conf")
+	os.execute("/usr/bin/chmod 600 /opt/data/etc/vsftpd/vuser_passwd.db")
+
+	-->> 创建虚拟配置文件目录
+	for username, _ in pairs(list) do
+		local info = string.format([[local_root=/nfs/guest_%s
+write_enable=YES
+anon_umask=022
+anon_world_readable_only=NO
+anon_upload_enable=YES
+anon_mkdir_write_enable=YES
+anon_other_write_enable=YES
+]], username)
+		os.execute(string.format("/usr/bin/echo '%s' > /opt/data/etc/vsftpd/vuser_conf/%s", info, username))
+		os.execute(string.format("/usr/bin/mkdir -p /nfs/guest_%s", username))
+		os.execute(string.format("/usr/bin/chmod -R 777 /nfs/guest_%s", username))
+	end
+	return true
+end
+
+return {
+	config_vsftp = config_vsftp,
+
+}

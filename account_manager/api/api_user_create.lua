@@ -82,22 +82,22 @@ local function handle()
 	end
 
 	local cmd = string.format(
-		[[/usr/sbin/useradd -m -d /home/guest%s guest%s 2>&1 && /usr/bin/chown -R guest%s:guest%s /home/guest%s 2>&1]],
+		[[/usr/sbin/useradd -m -d /nfs/guest_%s guest_%s 2>&1 && /usr/bin/chown -R guest_%s:guest_%s /nfs/guest_%s 2>&1]],
 		username, username, username, username, username)
 	local ok, errmsg = sys.execute(cmd)
 	if not ok then
 		only.log('E', '%s', errmsg)
 		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_USER_EXIST"))
 	else
-		local cmd = string.format([[/usr/bin/echo 'guest%s:%s'|/usr/sbin/chpasswd 2>&1]], username, password)
+		local cmd = string.format([[/usr/bin/echo 'guest_%s:%s'|/usr/sbin/chpasswd 2>&1]], username, password)
 		local ok, errmsg = sys.execute(cmd)
 		if not ok then
-			local cmd = string.format([[/usr/sbin/userdel -r guest%s]], username)
+			local cmd = string.format([[/usr/sbin/userdel -r guest_%s]], username)
 			os.execute(cmd)
 			only.log('E', 'password %s is invalid!', password)
 			gosay.out_message(MSG.fmt_err_message("MSG_ERROR_REQ_ARGS"))
 		else
-			local cmd = string.format([[/usr/sbin/usermod -s /sbin/nologin guest%s]], username)
+			local cmd = string.format([[/usr/sbin/usermod -s /sbin/nologin guest_%s]], username)
 			sys.execute(cmd)
 
 			local sql = string.format(sql_fmt["user_add"], username, password, "1111")

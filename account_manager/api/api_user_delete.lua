@@ -69,7 +69,7 @@ local function handle()
 		return
 	end
 
-	local cmd = string.format([[/usr/sbin/userdel -r guest%s]], username)
+	local cmd = string.format([[/usr/sbin/userdel -r guest_%s]], username)
 	os.execute(cmd)
 
 	-->> 配置vsftp
