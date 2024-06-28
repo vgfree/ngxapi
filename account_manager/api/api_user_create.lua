@@ -126,6 +126,17 @@ local function handle()
 				gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
 				return
 			end
+			-->> 配置samba
+			ok = AM_utils.config_samba_add(username, password)
+			if not ok then
+				gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
+				return
+			end
+			ok = AM_utils.config_samba(list)
+			if not ok then
+				gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
+				return
+			end
 
 
 			gosay.out_message(MSG.fmt_err_message("MSG_SUCCESS"))

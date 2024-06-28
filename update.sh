@@ -16,3 +16,10 @@ cp -r account_manager /opt/ownstor/ownstor-api/
 cp nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 make -C /opt/ownstor/ownstor-api/open/lib/
 systemctl restart openresty
+
+#sh samba_init.sh
+cp smb.conf /etc/samba/smb.conf
+mkdir -p /opt/data/etc/samba
+
+systemctl restart smb
+systemctl restart nmb

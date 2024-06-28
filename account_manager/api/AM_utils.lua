@@ -1,6 +1,7 @@
 local string = require("string")
 
 local function config_vsftp(list)
+	-->> 清空写
 	local msg = 'homeshare\n123456\n'
 	for username, password in pairs(list) do
 		msg = msg .. username .. "\n" .. password .. "\n"
@@ -36,7 +37,39 @@ anon_other_write_enable=YES
 	return true
 end
 
+local function config_samba(list)
+	os.execute("/usr/bin/mkdir -p /opt/data/etc/samba/")
+	-->> 清空写
+	local msg = ''
+	for username, _ in pairs(list) do
+		msg = msg .. string.format("guest_%s = %s\n", username, username)
+	end
+
+	local file = io.open("/opt/data/etc/samba/smb_user_map", "w")
+	if not file then
+		only.log('E', 'open smb_user_map failed!')
+		return false
+	end
+	file:write(msg)
+	file:close()
+	return true
+end
+
+local function config_samba_add(username, password)
+	local cmd = string.format("/usr/bin/echo -e '%s\n%s\n'|/usr/bin/pdbedit -a -u 'guest_%s'", password, password, username)
+	os.execute(cmd)
+	return true
+end
+
+local function config_samba_del(username)
+	local cmd = string.format("/usr/bin/pdbedit -x 'guest_%s'", username)
+	os.execute(cmd)
+	return true
+end
+
 return {
 	config_vsftp = config_vsftp,
-
+	config_samba = config_samba,
+	config_samba_add = config_samba_add,
+	config_samba_del = config_samba_del,
 }
