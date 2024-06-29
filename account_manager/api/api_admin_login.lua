@@ -5,6 +5,7 @@ local cjson = require("cjson")
 local jwt = require("resty.jwt")
 local sys = require("sys")
 local os = require("os")
+local only = require('only')
 
 local sql_fmt = {
 	one_info = "SELECT * FROM sys_info WHERE id=1",

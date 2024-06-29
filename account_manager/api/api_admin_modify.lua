@@ -3,6 +3,7 @@ local cjson = require("cjson")
 local gosay = require('gosay')
 local MSG = require('MSG')
 local jwt = require("resty.jwt")
+local only = require('only')
 
 local sql_fmt = {
 	one_update = "UPDATE sys_info SET secret='%s' WHERE id=1",

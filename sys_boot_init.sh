@@ -20,6 +20,7 @@ sleep 1
 setsebool -P samba_enable_home_dirs on
 setsebool -P samba_export_all_rw on
 semodule -i smb_link_policy.pp
+semodule -i nmb_link_policy.pp
 echo "完成SELINX和Firewalld的配置"
 sleep 1
 
@@ -28,4 +29,5 @@ sleep 1
 systemctl restart mariadb
 systemctl restart vsftpd
 systemctl restart smb
+systemctl restart nmb
 systemctl restart openresty
