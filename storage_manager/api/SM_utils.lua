@@ -1,6 +1,44 @@
 local sys = require("sys")
 local cjson = require('cjson')
 local only = require('only')
+local jwt = require("resty.jwt")
+local os = require("os")
+local gosay = require('gosay')
+local MSG = require('MSG')
+
+------> only use for handle
+local function main_call(F, ...)
+	ngx.header["Content-Type"] = "application/json"
+	local info = { pcall(F, ...) }
+	if not info[1] then
+		only.log("E", info[2])
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
+	end
+end
+
+local function admin_verify(jwt_token)
+	local secret = "ownstor"
+
+	local jwt_obj = jwt:verify(secret, jwt_token)
+	if not jwt_obj["verified"] then
+		only.log('E','token:%s!', jwt_obj["reason"])
+		return false
+	end
+	return true
+end
+
+local function token_check()
+	local headers = ngx.req.get_headers() 
+	local authorization_header = headers["Authorization"] 
+	if not authorization_header then 
+		gosay.out_status(401)
+	end
+	local token = string.match(authorization_header, "Bearer (.+)$")
+	if not admin_verify(token) then
+		gosay.out_status(401)
+	end
+end
+
 
 local function get_all_disk()
 	local list = {}
@@ -110,6 +148,8 @@ local function data_pool_apply(list)
 end
 
 return {
+	main_call = main_call,
+	token_check = token_check;
 	get_all_disk = get_all_disk,
 	get_disk_uuid = get_disk_uuid,
 	get_disk_fstype = get_disk_fstype,

@@ -1,5 +1,60 @@
 local string = require("string")
 local only = require('only')
+local jwt = require("resty.jwt")
+local os = require("os")
+local gosay = require('gosay')
+local MSG = require('MSG')
+
+------> only use for handle
+local function main_call(F, ...)
+	ngx.header["Content-Type"] = "application/json"
+	local info = { pcall(F, ...) }
+	if not info[1] then
+		only.log("E", info[2])
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
+	end
+end
+
+local function admin_sign()
+	local secret = "ownstor"
+	local expiration_time = os.time() + 1800	--秒
+
+	local jwt_obj = {
+		header = {
+			typ = "JWT",
+			alg = "HS256"
+		},
+		payload = {
+			exp = expiration_time
+		}
+	}
+
+	local jwt_token = jwt:sign(secret, jwt_obj)
+	return jwt_token
+end
+
+local function admin_verify(jwt_token)
+	local secret = "ownstor"
+
+	local jwt_obj = jwt:verify(secret, jwt_token)
+	if not jwt_obj["verified"] then
+		only.log('E','token:%s!', jwt_obj["reason"])
+		return false
+	end
+	return true
+end
+
+local function token_check()
+	local headers = ngx.req.get_headers() 
+	local authorization_header = headers["Authorization"] 
+	if not authorization_header then 
+		gosay.out_status(401)
+	end
+	local token = string.match(authorization_header, "Bearer (.+)$")
+	if not admin_verify(token) then
+		gosay.out_status(401)
+	end
+end
 
 local function config_vsftp(list)
 	-->> 清空写
@@ -69,6 +124,9 @@ local function config_samba_del(username)
 end
 
 return {
+	main_call = main_call,
+	admin_sign = admin_sign,
+	token_check = token_check;
 	config_vsftp = config_vsftp,
 	config_samba = config_samba,
 	config_samba_add = config_samba_add,
