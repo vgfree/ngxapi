@@ -9,6 +9,7 @@ cat > ~/.vimrc << EOF
 set termencoding=utf-8
 set fileformats=unix
 EOF
+dnf install rpm-build
 dnf install make
 dnf install gcc
 dnf install autoconf automake libtool
@@ -38,3 +39,6 @@ ln -s /opt/data/var/lib/samba /var/lib/samba
 dnf install samba
 systemctl start smb
 systemctl start nmb
+
+dnf localinstall ~/mergerfs-1.0.0-1.el9.x86_64.rpm
+dnf localinstall ~/csdo-1.0.0-3.9126b79.el9.x86_64.rpm

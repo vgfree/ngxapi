@@ -13,8 +13,14 @@ CREATE TABLE sys_info (
     nas_uuid VARCHAR(64) NOT NULL
 );
 
+CREATE TABLE disk_list (
+    dev VARCHAR(64) NOT NULL,
+    uuid VARCHAR(64) NOT NULL UNIQUE,
+    type VARCHAR(32) NOT NULL,
+    in_pool TINYINT(1) NOT NULL
+);
+
 CREATE TABLE user_list (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(32) NOT NULL,
     password VARCHAR(64) NOT NULL,
     scale_token VARCHAR(64) NOT NULL,

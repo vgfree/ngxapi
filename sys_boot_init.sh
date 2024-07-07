@@ -25,7 +25,7 @@ echo "完成SELINX和Firewalld的配置"
 sleep 1
 
 
-
+systemctl restart csdod
 systemctl restart mariadb
 systemctl restart vsftpd
 systemctl restart smb
