@@ -9,12 +9,12 @@ mkdir -p /nfs
 
 rm -rf /opt/ownstor/ownstor-api
 mkdir -p /opt/ownstor/ownstor-api
-cp -r cfg.lua /opt/ownstor/ownstor-api/
+cp -r client_cfg.lua /opt/ownstor/ownstor-api/cfg.lua
 cp -r open /opt/ownstor/ownstor-api/
 cp -r account_manager /opt/ownstor/ownstor-api/
 cp -r storage_manager /opt/ownstor/ownstor-api/
 
-cp nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
+cp client_nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 make -C /opt/ownstor/ownstor-api/open/lib/
 systemctl restart openresty
 

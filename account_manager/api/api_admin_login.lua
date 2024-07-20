@@ -8,7 +8,7 @@ local AM_utils = require('AM_utils')
 
 local sql_fmt = {
 	one_info = "SELECT * FROM sys_info WHERE id=1",
-	one_init = "INSERT INTO sys_info (secret, scale_token, nas_uuid) VALUES ('123456', '%s', '%s')",
+	one_init = "INSERT INTO sys_info (secret, identity, scale_token, nas_uuid) VALUES ('123456', '%s', '%s', '%s')",
 }
 
 local function handle()
@@ -44,7 +44,7 @@ local function handle()
 				nas_uuid = string.gsub(nas_uuid, "\n", "")
 			end
 
-			local sql = string.format(sql_fmt["one_init"], "", nas_uuid)
+			local sql = string.format(sql_fmt["one_init"], "", "", nas_uuid)
 			local ok, res = mysql_api.cmd('ownstor___ownstor_db', 'INSERT', sql)
 			if not ok then
 				only.log('E','select mysql failed!')
@@ -53,6 +53,7 @@ local function handle()
 			end
 
 			local info = {}
+			info["identity"] = ""
 			info["scale_token"] = ""
 			info["nas_uuid"] = nas_uuid
 			info["token"] = token
@@ -64,6 +65,7 @@ local function handle()
 	else
 		if res[1]["secret"] == secret then
 			local info = {}
+			info["identity"] = res[1]["identity"]
 			info["scale_token"] = res[1]["scale_token"]
 			info["nas_uuid"] = res[1]["nas_uuid"]
 			info["token"] = token

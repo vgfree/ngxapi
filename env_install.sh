@@ -25,6 +25,7 @@ dnf install libdb-utils
 dnf install openresty openresty-opm
 opm get SkyLothar/lua-resty-jwt
 opm get fffonion/lua-resty-openssl
+opm get agentzh/lua-resty-http
 
 dnf install mariadb-server
 dnf install mariadb-devel

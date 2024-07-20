@@ -8,10 +8,13 @@ local MSG = {
 	MSG_ERROR_REQ_ARGS			                ={10000, "args is error!"},
 	--> 系统错误
 	MSG_ERROR_SYSTEM                                        ={10001, "internal error!"},
+	MSG_ERROR_NETWORK                                       ={10002, "network error!"},
 
 	MSG_ERROR_USER_EXIST		                        ={20000, "user is already exist!"},
 	MSG_ERROR_USER_NOT_EXIST                                ={20001, "User does not exist!"},
 	MSG_ERROR_SECRET                                        ={20002, "secret is wrong!"},
+	MSG_ERROR_VERIFICATION_CODE_EXPIRED                     ={20003, "the verification code has expired!"},
+	MSG_ERROR_VERIFICATION_CODE_WRONG                       ={20004, "the verification code is wrong!"},
 }
 
 local function fmt_err_message(err)

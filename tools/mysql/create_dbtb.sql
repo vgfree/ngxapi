@@ -10,7 +10,8 @@ CREATE TABLE sys_info (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     secret VARCHAR(64) NOT NULL,
     scale_token VARCHAR(64) NOT NULL,
-    nas_uuid VARCHAR(64) NOT NULL
+    nas_uuid VARCHAR(64) NOT NULL,
+    identity VARCHAR(64) NOT NULL
 );
 
 CREATE TABLE disk_list (

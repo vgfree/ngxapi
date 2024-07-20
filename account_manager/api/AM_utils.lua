@@ -45,9 +45,9 @@ local function admin_verify(jwt_token)
 end
 
 local function token_check()
-	local headers = ngx.req.get_headers() 
-	local authorization_header = headers["Authorization"] 
-	if not authorization_header then 
+	local headers = ngx.req.get_headers()
+	local authorization_header = headers["Authorization"]
+	if not authorization_header then
 		gosay.out_status(401)
 	end
 	local token = string.match(authorization_header, "Bearer (.+)$")
@@ -126,7 +126,7 @@ end
 return {
 	main_call = main_call,
 	admin_sign = admin_sign,
-	token_check = token_check;
+	token_check = token_check,
 	config_vsftp = config_vsftp,
 	config_samba = config_samba,
 	config_samba_add = config_samba_add,

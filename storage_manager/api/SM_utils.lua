@@ -28,9 +28,9 @@ local function admin_verify(jwt_token)
 end
 
 local function token_check()
-	local headers = ngx.req.get_headers() 
-	local authorization_header = headers["Authorization"] 
-	if not authorization_header then 
+	local headers = ngx.req.get_headers()
+	local authorization_header = headers["Authorization"]
+	if not authorization_header then
 		gosay.out_status(401)
 	end
 	local token = string.match(authorization_header, "Bearer (.+)$")
@@ -149,7 +149,7 @@ end
 
 return {
 	main_call = main_call,
-	token_check = token_check;
+	token_check = token_check,
 	get_all_disk = get_all_disk,
 	get_disk_uuid = get_disk_uuid,
 	get_disk_fstype = get_disk_fstype,
