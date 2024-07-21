@@ -63,6 +63,9 @@ local function handle()
 		return
 	end
 
+	local cmd = "csdo /usr/bin/tailscale logout"
+	sys.execute(cmd)
+
 	local host = ngx.var.manage_center
 	local pos = host:find(":")
 	if pos then
