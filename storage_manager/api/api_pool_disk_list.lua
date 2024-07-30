@@ -22,7 +22,7 @@ local function handle()
 		local list = {}
 		for _, one in ipairs(res) do
 			if one["in_pool"] == "1" then
-				table.insert(list, {dev = one["dev"], uuid = one["uuid"], type = one["type"]})
+				table.insert(list, {uuid = one["uuid"], model = one["model"], vendor = one["vendor"], serial = one["serial"], wwn = one["wwn"], size = one["size"], fstype = one["fstype"], type = one["type"]})
 			end
 		end
 		local msg = cjson.encode(list)

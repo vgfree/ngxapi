@@ -15,8 +15,13 @@ CREATE TABLE sys_info (
 );
 
 CREATE TABLE disk_list (
-    dev VARCHAR(64) NOT NULL,
     uuid VARCHAR(64) NOT NULL UNIQUE,
+    model VARCHAR(128) NOT NULL,
+    vendor VARCHAR(128) NOT NULL,
+    serial VARCHAR(128) NOT NULL,
+    wwn VARCHAR(128) NOT NULL,
+    size VARCHAR(32) NOT NULL,
+    fstype VARCHAR(12) NOT NULL,
     type VARCHAR(32) NOT NULL,
     in_pool TINYINT(1) NOT NULL
 );

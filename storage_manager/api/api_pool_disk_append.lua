@@ -7,7 +7,7 @@ local mysql_api = require('mysql_pool_api')
 
 local sql_fmt = {
 	disk_list = "SELECT * FROM disk_list WHERE in_pool = 1",
-	disk_append = "INSERT INTO disk_list (dev, uuid, type, in_pool) VALUES ('%s', '%s', '%s', 1) ON DUPLICATE KEY UPDATE dev = '%s', type = VALUES(type), in_pool = 1;",
+	disk_append = "INSERT INTO disk_list (uuid, model, vendor, serial, wwn, size, fstype, type, in_pool) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', 1) ON DUPLICATE KEY UPDATE type = VALUES(type), in_pool = 1;",
 }
 
 local function handle()
@@ -34,7 +34,13 @@ local function handle()
 		uuid = SM_utils.get_disk_uuid(dev)
 	end
 
-	local sql = string.format(sql_fmt["disk_append"], dev, uuid, "data", dev)
+	local res = SM_utils.get_one_disk(dev)
+	if not res then
+		only.log('E','get disk info failed!')
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
+		return
+	end
+	local sql = string.format(sql_fmt["disk_append"], uuid, res["model"] or "", res["vendor"] or "", res["serial"] or "", res["wwn"] or "", res["size"] or "", res["fstype"] or "", "data")
 	local ok, res = mysql_api.cmd('ownstor___ownstor_db', 'INSERT', sql)
 	if not ok then
 		only.log('E','insert mysql failed!')

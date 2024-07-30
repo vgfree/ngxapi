@@ -39,35 +39,27 @@ local function token_check()
 	end
 end
 
-local function str_split(s, c)
-	if not s then return nil end
-
-	local m = string.format("([^%s]+)", c)
-	local t = {}
-	local k = 1
-	for v in string.gmatch(s, m) do
-		t[k] = v
-		k = k + 1
+local function get_one_disk(name)
+	local ok, info = sys.execute("/usr/bin/lsblk -d -o NAME,MODEL,VENDOR,UUID,SERIAL,WWN,SIZE,FSTYPE,FSSIZE,FSUSED,FSAVAIL,FSUSE% -J /dev/" .. name)
+	if not ok then
+		only.log('E', 'lsblk failed:%s!', info)
+		return nil
 	end
-	return t
+	local top = cjson.decode(info)
+	return top["blockdevices"][1]
 end
 
 local function get_all_disk()
-	local list = {}
 	local ok, info = sys.execute("/usr/bin/lsblk -J")
 	if not ok then
 		only.log('E', 'lsblk failed:%s!', info)
-		return list
+		return {}
 	end
+	local list = {}
 	local top = cjson.decode(info)
 	for _, sub in ipairs(top["blockdevices"]) do
 		local name = sub["name"]
-		local size = sub["size"]
 		local is_sys_block = false
-		local last_mnt = nil
-		for _, mnt in ipairs(sub["mountpoints"] or {}) do
-			last_mnt = mnt
-		end
 		for _, one in ipairs(sub["children"] or {}) do
 			for _, mnt in ipairs(one["mountpoints"] or {}) do
 				if mnt == "/boot" then
@@ -76,42 +68,18 @@ local function get_all_disk()
 			end
 		end
 		if not is_sys_block then
-			local detail = {}
-			if last_mnt then
-				local ok, line = sys.execute(string.format("/usr/bin/df %s -Th|awk 'NR==2'", last_mnt))
-				if not ok then
-					only.log('E', 'df failed:%s!', line)
-					return {}
-				end
-				detail = str_split(line, ' ')
-			end
-			if #detail == 0 then
-				table.insert(list, {name = name, size = size})
-			else
-				table.insert(list, {name = name, size = size, fs_type = detail[2], used = detail[4], available = detail[5], usage_rate = detail[6]})
-			end
-		end
-	end
-	local ok, info = sys.execute("/usr/bin/lsblk -d -o NAME,MODEL,VENDOR -J")
-	if not ok then
-		only.log('E', 'lsblk failed:%s!', info)
-		return list
-	end
-	local top = cjson.decode(info)
-	for _, sub in ipairs(top["blockdevices"]) do
-		local name = sub["name"]
-		local model = sub["model"]
-		local vendor = sub["vendor"]
-		for i, one in ipairs(list) do
-			if one["name"] == name then
-				list[i]["model"] = model
-				list[i]["vendor"] = vendor
-				break
-			end
+			table.insert(list, name)
 		end
 	end
 
-	return list
+	local all = {}
+	for _, dev in ipairs(list) do
+		local one = get_one_disk(dev)
+		if one then
+			table.insert(all, one)
+		end
+	end
+	return all
 end
 
 --遍历所有匹配的key="value"键值对
@@ -180,6 +148,7 @@ return {
 	main_call = main_call,
 	token_check = token_check,
 	get_all_disk = get_all_disk,
+	get_one_disk = get_one_disk,
 	get_disk_uuid = get_disk_uuid,
 	get_disk_fstype = get_disk_fstype,
 	data_pool_apply = data_pool_apply,
