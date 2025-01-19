@@ -1,4 +1,4 @@
-登入管理中心的接口文档
+登入管理中心
 =================================
 
 ### API编号
@@ -21,7 +21,7 @@ secret          |管理员密码               |string       |默认密码:12345
 ### 示例代码
 
     POST /accountManager/v1/adminLogin HTTP/1.0
-    Host:127.0.0.1:80
+    Host:127.0.0.1:8090
     Content-Length:0
     Content-Type:application/json
 

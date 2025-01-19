@@ -1,10 +1,10 @@
-设备激活
+授权的用户列表
 =================================
 
 ### API编号
 
 ### 功能简介
-* 设备激活
+* 显示授权的用户列表
 
 ### 参数格式
 
@@ -13,26 +13,22 @@
 ### 输入参数
 
 
- 参数            |参数说明                 |  类型       |   示例                             |是否允许为空|  限制条件
------------------|-------------------------|-------------|------------------------------------|------------|---------------------
-nas_uuid         |机器码                   |字符串       |03000200-0400-0500-0006-000700080009|否          |无
-identity         |接受验证码的手机号或邮箱 |字符串       |13917951002                         |否          |无
-verification_code|验证码                   |字符串       |666666                              |否          |无
+ 参数           |参数说明                 |  类型       |   示例         |是否允许为空|  限制条件
+----------------|-------------------------|-------------|----------------|------------|---------------------
 
 ### 示例代码
 
-    POST /accountManager/v1/deviceActive HTTP/1.0
+    GET /accountManager/v1/userListAccept HTTP/1.0
     Host:127.0.0.1:8090
-    Content-Length:105
+    Content-Length:0
     Content-Type:application/json
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4MTc2MzJ9.SxT8X-7Xg0-ei17G1HtKzbB2ADR-TaVwOX7I0-PLCw4
 
-    {"nas_uuid":"03000200-0400-0500-0006-000700080009","identity":"13917951002","verification_code":"666666"}
 
 ### 返回body示例
 
 * 失败: `{"ERRORCODE":10001, "RESULT":"internal error!"}`
-* 成功: `{"ERRORCODE":0,"RESULT":"ok!"}`
+* 成功: `{"ERRORCODE":0,"RESULT":[]}`
 
 
 ### 返回结果参数

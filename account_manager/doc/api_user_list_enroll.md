@@ -1,10 +1,10 @@
-用户列表的接口文档
+登记的用户列表
 =================================
 
 ### API编号
 
 ### 功能简介
-* 用户列表
+* 显示登记的用户列表
 
 ### 参数格式
 
@@ -18,8 +18,8 @@
 
 ### 示例代码
 
-    GET /accountManager/v1/userList HTTP/1.0
-    Host:127.0.0.1:80
+    GET /accountManager/v1/userListEnroll HTTP/1.0
+    Host:127.0.0.1:8090
     Content-Length:0
     Content-Type:application/json
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4MTc2MzJ9.SxT8X-7Xg0-ei17G1HtKzbB2ADR-TaVwOX7I0-PLCw4
@@ -28,7 +28,7 @@
 ### 返回body示例
 
 * 失败: `{"ERRORCODE":10001, "RESULT":"internal error!"}`
-* 成功: `{"ERRORCODE":0,"RESULT":"ok!"}`
+* 成功: `{"ERRORCODE":0,"RESULT":[]}`
 
 
 ### 返回结果参数

@@ -27,9 +27,9 @@ CREATE TABLE disk_list (
 );
 
 CREATE TABLE user_list (
-    username VARCHAR(32) NOT NULL,
+    username VARCHAR(32) NOT NULL UNIQUE,
     password VARCHAR(64) NOT NULL,
-    scale_token VARCHAR(64) NOT NULL,
+    accepted TINYINT(1) NOT NULL,
     save_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 

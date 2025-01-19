@@ -6,7 +6,7 @@ local only = require('only')
 local AM_utils = require('AM_utils')
 
 local sql_fmt = {
-	user_list = "SELECT * FROM user_list",
+	user_list = "SELECT username, save_time FROM user_list WHERE accepted=1",
 }
 
 local function handle()

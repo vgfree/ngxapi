@@ -6,6 +6,7 @@ local only = require('only')
 local AM_utils = require('AM_utils')
 
 local sql_fmt = {
+	one_info = "SELECT * FROM sys_info WHERE id=1",
 	one_update = "UPDATE sys_info SET secret='%s' WHERE id=1",
 }
 
@@ -33,6 +34,22 @@ local function handle()
 	local secret = res["secret"]
 	if not secret then
 		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_REQ_ARGS"))
+		return
+	end
+
+	local ok, res = mysql_api.cmd('ownstor___ownstor_db', 'SELECT', sql_fmt["one_info"])
+	if not ok then
+		only.log('E','select mysql failed!')
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
+		return
+	end
+	if #res == 0 then
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
+		return
+	end
+
+	if res[1]["secret"] == secret then
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SECRET_SAME"))
 		return
 	end
 

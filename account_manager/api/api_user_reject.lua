@@ -10,8 +10,7 @@ local APP_KEY_LIST = {
 }
 
 local sql_fmt = {
-	user_del = "DELETE FROM user_list WHERE username='%s'",
-	user_list = "SELECT username, password FROM user_list",
+	user_del = "DELETE FROM user_list WHERE username='%s' AND accepted=0",
 }
 
 local function check_args(args)
@@ -41,38 +40,6 @@ local function handle()
 		return
 	end
 
-	-->> 获取用户列表
-	local ok, res = mysql_api.cmd('ownstor___ownstor_db', 'SELECT', sql_fmt["user_list"])
-	if not ok then
-		only.log('E','select mysql failed!')
-		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
-		return
-	end
-
-	local list = {}
-	for _, sub in ipairs(res) do
-		list[sub["username"]] = sub["password"]
-	end
-	list[username] = nil
-
-	-->> 配置vsftp
-	ok = AM_utils.config_vsftp(list)
-	if not ok then
-		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
-		return
-	end
-	-->> 配置samba
-	ok = AM_utils.config_samba(list)
-	if not ok then
-		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
-		return
-	end
-	ok = AM_utils.config_samba_del(username)
-	if not ok then
-		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
-		return
-	end
-
 	-->> 删除用户
 	local sql = string.format(sql_fmt["user_del"], username)
 	only.log('I','sql:%s', sql)
@@ -82,10 +49,6 @@ local function handle()
 		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
 		return
 	end
-
-	local cmd = string.format([[/usr/sbin/userdel -r guest_%s]], username)
-	os.execute(cmd)
-
 
 	gosay.out_message(MSG.fmt_err_message("MSG_SUCCESS"))
 end

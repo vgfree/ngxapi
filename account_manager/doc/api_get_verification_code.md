@@ -1,4 +1,4 @@
-获取验证码的接口文档
+获取验证码
 =================================
 
 ### API编号
@@ -21,7 +21,7 @@ identity        |接受验证码的手机号或邮箱 |字符串       |13917951
 ### 示例代码
 
     POST /accountManager/v1/getVerificationCode HTTP/1.0
-    Host:127.0.0.1:80
+    Host:127.0.0.1:8090
     Content-Length:76
     Content-Type:application/json
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4MTc2MzJ9.SxT8X-7Xg0-ei17G1HtKzbB2ADR-TaVwOX7I0-PLCw4

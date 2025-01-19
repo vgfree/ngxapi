@@ -1,10 +1,10 @@
-修改管理信息
+用户拒绝
 =================================
 
 ### API编号
 
 ### 功能简介
-* 修改管理信息
+* 用户拒绝
 
 ### 参数格式
 
@@ -15,21 +15,21 @@
 
  参数           |参数说明                 |  类型       |   示例         |是否允许为空|  限制条件
 ----------------|-------------------------|-------------|----------------|------------|---------------------
-secret          |管理员密码               |string       |新密码:88888888 |否          |无
-
+username        |用户名                   |string       |13917951002     |否          |手机号
 
 ### 示例代码
 
-    POST /accountManager/v1/adminModify HTTP/1.0
+    DELETE /accountManager/v1/userReject HTTP/1.0
     Host:127.0.0.1:8090
-    Content-Length:20
+    Content-Length:0
     Content-Type:application/json
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4MTc2MzJ9.SxT8X-7Xg0-ei17G1HtKzbB2ADR-TaVwOX7I0-PLCw4
 
-    {"secret":"88888888"}
+    {"username":"13917951002"}
+
 ### 返回body示例
 
-* 失败: `{"ERRORCODE":20003, "RESULT":"secret is same!"}`
+* 失败: `{"ERRORCODE":10001, "RESULT":"internal error!"}`
 * 成功: `{"ERRORCODE":0,"RESULT":"ok!"}`
 
 
@@ -46,7 +46,6 @@ secret          |管理员密码               |string       |新密码:88888888
 0           | Request OK                |
 10000       | 参数错误                  | 请检查输入参数
 10001       | 系统内部错误              | 请与公司客服联系
-20003       | 密码相同                  | 更换新密码
 
 ### 测试地址: 127.0.0.1
 

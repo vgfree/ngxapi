@@ -11,9 +11,9 @@ local APP_KEY_LIST = {
 }
 
 local sql_fmt = {
-	user_info = "SELECT * FROM user_list WHERE username='%s'",
-	user_add = "INSERT INTO user_list (username, password, scale_token) VALUES ('%s', '%s', '%s')",
-	user_list = "SELECT username, password FROM user_list",
+	user_info = "SELECT password, accepted FROM user_list WHERE username='%s'",
+	user_update = "UPDATE user_list SET accepted=1 WHERE username='%s'",
+	user_list = "SELECT username, password FROM user_list WHERE accepted=1",
 }
 
 local function check_args(args)
@@ -42,11 +42,6 @@ local function handle()
 		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_REQ_ARGS"))
 		return
 	end
-	local password = res["password"]
-	if not password then
-		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_REQ_ARGS"))
-		return
-	end
 
 
 	local sql = string.format(sql_fmt["user_info"], username)
@@ -56,9 +51,16 @@ local function handle()
 		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
 		return
 	end
-	if #res ~= 0 then
-		only.log('E','mysql username %s is exist!', username)
-		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_USER_EXIST"))
+	if #res == 0 then
+		only.log('E','mysql username %s is not exist!', username)
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_USER_NOT_EXIST"))
+		return
+	end
+	local password = res[1]["password"]
+	local accepted = res[1]["accepted"]
+	if tonumber(accepted) == 1 then
+		only.log('W','username %s is already accepted!', username)
+		gosay.out_message(MSG.fmt_err_message("MSG_SUCCESS"))
 		return
 	end
 
@@ -81,14 +83,6 @@ local function handle()
 			local cmd = string.format([[/usr/sbin/usermod -s /sbin/nologin guest_%s]], username)
 			sys.execute(cmd)
 
-			local sql = string.format(sql_fmt["user_add"], username, password, "1111")
-			local ok, res = mysql_api.cmd('ownstor___ownstor_db', 'INSERT', sql)
-			if not ok then
-				only.log('E','insert mysql failed!')
-				gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
-				return
-			end
-
 			-->> 配置vsftp
 			local ok, res = mysql_api.cmd('ownstor___ownstor_db', 'SELECT', sql_fmt["user_list"])
 			if not ok then
@@ -98,6 +92,7 @@ local function handle()
 			end
 
 			local list = {}
+			list[username] = password
 			for _, sub in ipairs(res) do
 				list[sub["username"]] = sub["password"]
 			end
@@ -119,6 +114,13 @@ local function handle()
 				return
 			end
 
+			local sql = string.format(sql_fmt["user_update"], username)
+			local ok, res = mysql_api.cmd('ownstor___ownstor_db', 'UPDATE', sql)
+			if not ok then
+				only.log('E','update mysql failed!')
+				gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
+				return
+			end
 
 			gosay.out_message(MSG.fmt_err_message("MSG_SUCCESS"))
 			return

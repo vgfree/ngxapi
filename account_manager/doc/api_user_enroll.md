@@ -1,10 +1,10 @@
-用户创建的接口文档
+用户登记
 =================================
 
 ### API编号
 
 ### 功能简介
-* 用户创建
+* 用户登记
 
 ### 参数格式
 
@@ -20,11 +20,10 @@ password        |密码                     |string       |love@13917951002|否 
 
 ### 示例代码
 
-    POST /accountManager/v1/userCreate HTTP/1.0
-    Host:127.0.0.1:80
-    Content-Length:0
+    POST /accountManager/v1/userEnroll HTTP/1.0
+    Host:127.0.0.1:8090
+    Content-Length:50
     Content-Type:application/json
-    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4MTc2MzJ9.SxT8X-7Xg0-ei17G1HtKzbB2ADR-TaVwOX7I0-PLCw4
 
     {"username":"13917951002","password":"love@123456"}
 
