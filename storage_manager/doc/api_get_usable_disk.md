@@ -1,10 +1,10 @@
-获取存储池磁盘列表
+获取可用磁盘列表
 =================================
 
 ### API编号
 
 ### 功能简介
-* 获取存储池磁盘列表
+* 获取可用磁盘列表
 
 ### 参数格式
 
@@ -18,7 +18,7 @@
 
 ### 示例代码
 
-    GET /storageManager/v1/poolDiskList HTTP/1.0
+    GET /storageManager/v1/getUsableDisk HTTP/1.0
     Host:127.0.0.1:8090
     Content-Length:0
     Content-Type:application/json

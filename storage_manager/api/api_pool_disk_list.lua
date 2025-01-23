@@ -1,5 +1,6 @@
 local gosay = require('gosay')
 local cjson = require('cjson')
+local sys = require("sys")
 local MSG = require('MSG')
 local SM_utils = require('SM_utils')
 local only = require('only')
@@ -21,9 +22,10 @@ local function handle()
 	if #res ~= 0 then
 		local list = {}
 		for _, one in ipairs(res) do
-			if one["in_pool"] == "1" then
-				table.insert(list, {uuid = one["uuid"], model = one["model"], vendor = one["vendor"], serial = one["serial"], wwn = one["wwn"], size = one["size"], fstype = one["fstype"], type = one["type"]})
-			end
+			local cmd = string.format([[/usr/sbin/blkid | grep -q 'UUID="%s"']], one["uuid"])
+			local ok = sys.execute(cmd)
+			one["active"] = ok and true or false
+			table.insert(list, {uuid = one["uuid"], model = one["model"], vendor = one["vendor"], serial = one["serial"], wwn = one["wwn"], size = one["size"], fstype = one["fstype"], type = one["type"]})
 		end
 		local msg = cjson.encode(list)
 		gosay.out_message(MSG.fmt_api_message(msg))

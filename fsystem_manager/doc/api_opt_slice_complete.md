@@ -1,33 +1,36 @@
-磁盘列表的接口文档
+合并切片文件
 =================================
 
 ### API编号
 
 ### 功能简介
-* 磁盘列表
+* 合并切片文件
 
 ### 参数格式
 
-* 所有 API 都以 **GET/POST** 方式请求，且传送方式为 **key-value键值对**.
+* 所有 API 都以 **GET/PUT/POST/DELETE** 方式请求，且传送方式为 **key-value键值对**.
 
 ### 输入参数
 
 
  参数           |参数说明                 |  类型       |   示例         |是否允许为空|  限制条件
 ----------------|-------------------------|-------------|----------------|------------|---------------------
+path            |路径                     |string       |  test/subpath  |否          |  不能以/或./或../开头
+
 
 ### 示例代码
 
-    GET /storageManager/v1/getAllDisk HTTP/1.0
-    Host:127.0.0.1:80
-    Content-Length:0
+    POST /fsystemManager/v1/optSliceComplete HTTP/1.0
+    Host:127.0.0.1:8090
+    Content-Length:24
     Content-Type:application/json
-    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4MTc2MzJ9.SxT8X-7Xg0-ei17G1HtKzbB2ADR-TaVwOX7I0-PLCw4
+    Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjEzOTE3OTUxMDAyIiwiZXhwIjoxNzM3MzY3MzkzLCJwYXNzd29yZCI6ImxvdmVAMTIzNDU2In0.kD_xVbRlqFx6FzwVUOdDLld72ISUfTmIbYSh9RpiO1E
 
+    {"path":"test/subpath", "UUID":"OTUxMDAyIiwiZXhwI", "totalChunks":2}
 
 ### 返回body示例
 
-* 失败: `{"ERRORCODE":10001, "RESULT":"internal error!"}`
+* 失败: `{"ERRORCODE":20007, "RESULT":"path is invalid!"}`
 * 成功: `{"ERRORCODE":0,"RESULT":"ok!"}`
 
 
@@ -44,6 +47,7 @@
 0           | Request OK                |
 10000       | 参数错误                  | 请检查输入参数
 10001       | 系统内部错误              | 请与公司客服联系
+20007       | path路径无效              | 请检查输入参数
 
 ### 测试地址: 127.0.0.1
 

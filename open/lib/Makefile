@@ -3,7 +3,8 @@ BASE_OBJ = lualog.so \
       cutils.so \
       socket.so \
       luasql.so \
-      conhash.so
+      conhash.so \
+      lfs.so
 OBJ += $(BASE_OBJ)
 #OBJ +=  \
 	zlib.so \
@@ -54,6 +55,11 @@ conhash.so:
 	$(MAKE) -C $(LIB_DIR)/libconhash
 	mv $(LIB_DIR)/libconhash/bin/$@ $(LIB_DIR)
 
+lfs.so:
+	cp luafilesystem.config luafilesystem/config
+	$(MAKE) -C $(LIB_DIR)/luafilesystem
+	mv $(LIB_DIR)/luafilesystem/src/$@ $(LIB_DIR)
+
 luasql.so:
 	# git clone https://github.com/lunarmodules/luasql.git
 	$(MAKE) -C $(LIB_DIR)/luasql mysql
@@ -102,6 +108,7 @@ clean:
 	$(MAKE) -C $(LIB_DIR)/lua-http-message clean
 	$(MAKE) -C $(LIB_DIR)/lua-log clean
 	$(MAKE) -C $(LIB_DIR)/zklua clean
+	$(MAKE) -C $(LIB_DIR)/luafilesystem clean
 	cd ./lua-zlib && make clean
 	cd ./Lua-bit32 && make clean
 	-if [ -d ./build ];then rm -rf ./build; fi

@@ -6,8 +6,8 @@ local only = require('only')
 local mysql_api = require('mysql_pool_api')
 
 local sql_fmt = {
-	disk_list = "SELECT * FROM disk_list WHERE in_pool = 1",
-	disk_remove = "UPDATE disk_list SET in_pool = 0 WHERE uuid = '%s'",
+	disk_list = "SELECT * FROM disk_list",
+	disk_remove = "DELETE FROM disk_list WHERE uuid = '%s'",
 }
 
 local function handle()
@@ -26,9 +26,9 @@ local function handle()
 	end
 
 	local sql = string.format(sql_fmt["disk_remove"], uuid)
-	local ok, res = mysql_api.cmd('ownstor___ownstor_db', 'UPDATE', sql)
+	local ok, res = mysql_api.cmd('ownstor___ownstor_db', 'DELETE', sql)
 	if not ok then
-		only.log('E','insert mysql failed!')
+		only.log('E','delete mysql failed!')
 		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
 		return
 	end

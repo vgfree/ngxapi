@@ -9,19 +9,7 @@ cat > ~/.vimrc << EOF
 set termencoding=utf-8
 set fileformats=unix
 EOF
-dnf install dmidecode
-dnf install rpm-build
-dnf install make
-dnf install gcc
-dnf install autoconf automake libtool
-dnf install pacman
-dnf install fakeroot
-dnf install lua-basexx luajit-devel
-dnf install shadow util-linux
-dnf install openssl
-dnf install pcp-system-tools net-tools
-dnf install libuuid-devel
-dnf install libdb-utils
+dnf install -y dmidecode rpm-build make gcc autoconf automake libtool pacman fakeroot lua-basexx luajit-devel shadow util-linux openssl pcp-system-tools net-tools libuuid-devel libdb-utils
 
 dnf install openresty openresty-opm
 opm get SkyLothar/lua-resty-jwt

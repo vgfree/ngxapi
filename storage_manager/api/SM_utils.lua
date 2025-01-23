@@ -122,6 +122,15 @@ local function get_disk_fstype(dev)
 end
 
 local function data_pool_apply(list)
+	for _, one in ipairs(list) do
+		local cmd = string.format([[/usr/sbin/blkid | grep -q 'UUID="%s"']], one["uuid"])
+		local ok = sys.execute(cmd)
+		if not ok then
+			only.log('E', 'disk %s is inactive!', one["uuid"])
+			return
+		end
+	end
+
 	local mounts = {}
 	os.execute("/usr/bin/csdo /usr/bin/umount /nfs")
 	if #list == 0 then return end
@@ -132,8 +141,9 @@ local function data_pool_apply(list)
 		local ok, info = sys.execute(cmd)
 		if not ok then
 			only.log('E', 'mount failed:%s!', info)
+		else
+			table.insert(mounts, "/mnt/" .. one["uuid"])
 		end
-		table.insert(mounts, "/mnt/" .. one["uuid"])
 	end
 	local disks = table.concat(mounts, ":")
 	os.execute("/usr/bin/csdo /usr/bin/mkdir -p /nfs")

@@ -6,6 +6,9 @@ OWN_INIT = {
 
 	-->2
 	 'storage_manager.deploy.init',
+
+	-->2
+	 'fsystem_manager.deploy.init',
 }
 
 OWN_LINK = {
@@ -14,6 +17,9 @@ OWN_LINK = {
 
 	-->2
 	 'storage_manager.deploy.link',
+
+	-->2
+	 'fsystem_manager.deploy.link',
 }
 
 OWN_INFO = {

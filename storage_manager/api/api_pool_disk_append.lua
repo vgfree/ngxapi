@@ -6,8 +6,8 @@ local only = require('only')
 local mysql_api = require('mysql_pool_api')
 
 local sql_fmt = {
-	disk_list = "SELECT * FROM disk_list WHERE in_pool = 1",
-	disk_append = "INSERT INTO disk_list (uuid, model, vendor, serial, wwn, size, fstype, type, in_pool) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', 1) ON DUPLICATE KEY UPDATE type = VALUES(type), in_pool = 1;",
+	disk_list = "SELECT * FROM disk_list",
+	disk_append = "INSERT INTO disk_list (uuid, model, vendor, serial, wwn, size, fstype, type) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s') ON DUPLICATE KEY UPDATE type = VALUES(type);",
 }
 
 local function handle()

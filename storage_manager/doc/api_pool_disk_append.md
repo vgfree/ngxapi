@@ -1,10 +1,10 @@
-存储池磁盘添加的接口文档
+存储池添加磁盘
 =================================
 
 ### API编号
 
 ### 功能简介
-* 存储池磁盘添加
+* 存储池添加磁盘
 
 ### 参数格式
 
@@ -20,7 +20,7 @@ dev             |设备名称                 |字符串       | nvme0n1        
 ### 示例代码
 
     POST /storageManager/v1/poolDiskAppend HTTP/1.0
-    Host:127.0.0.1:80
+    Host:127.0.0.1:8090
     Content-Length:17
     Content-Type:application/json
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4MTc2MzJ9.SxT8X-7Xg0-ei17G1HtKzbB2ADR-TaVwOX7I0-PLCw4

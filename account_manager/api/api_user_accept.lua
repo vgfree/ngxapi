@@ -14,6 +14,7 @@ local sql_fmt = {
 	user_info = "SELECT password, accepted FROM user_list WHERE username='%s'",
 	user_update = "UPDATE user_list SET accepted=1 WHERE username='%s'",
 	user_list = "SELECT username, password FROM user_list WHERE accepted=1",
+	disk_list = "SELECT * FROM disk_list",
 }
 
 local function check_args(args)
@@ -62,6 +63,25 @@ local function handle()
 		only.log('W','username %s is already accepted!', username)
 		gosay.out_message(MSG.fmt_err_message("MSG_SUCCESS"))
 		return
+	end
+
+	local ok, res = mysql_api.cmd('ownstor___ownstor_db', 'SELECT', sql_fmt["disk_list"])
+	if not ok then
+		only.log('E','select mysql failed!')
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_SYSTEM"))
+		return
+	end
+	if #res == 0 then
+		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_DISK_POOL_EMPTY"))
+		return
+	end
+	for _, one in ipairs(res) do
+		local cmd = string.format([[/usr/sbin/blkid | grep -q 'UUID="%s"']], one["uuid"])
+		local ok = sys.execute(cmd)
+		if not ok then
+			gosay.out_message(MSG.fmt_err_message("MSG_ERROR_DISK_POOL_INACTIVE"))
+			return
+		end
 	end
 
 	local cmd = string.format(
