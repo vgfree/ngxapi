@@ -39,6 +39,7 @@ local function handle()
 		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_REQ_ARGS"))
 		return
 	end
+	username = string.gsub(username, "@", "..")
 	local password = res["password"]
 	if not password then
 		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_REQ_ARGS"))

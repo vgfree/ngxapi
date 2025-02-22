@@ -40,6 +40,7 @@ local function handle()
 		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_REQ_ARGS"))
 		return
 	end
+	username = string.gsub(username, "@", "..")
 
 	-->> 获取用户列表
 	local ok, res = mysql_api.cmd('ownstor___ownstor_db', 'SELECT', sql_fmt["user_list"])

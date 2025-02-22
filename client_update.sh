@@ -25,6 +25,7 @@ mkdir -p /opt/data/etc/samba
 
 systemctl restart smb
 systemctl restart nmb
+systemctl restart csdod
 
 mkdir -p /opt/ownstor/doc/docs/account_manager
 cp -rf account_manager/doc/* /opt/ownstor/doc/docs/account_manager/

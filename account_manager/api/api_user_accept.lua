@@ -43,6 +43,7 @@ local function handle()
 		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_REQ_ARGS"))
 		return
 	end
+	username = string.gsub(username, "@", "..")
 
 
 	local sql = string.format(sql_fmt["user_info"], username)

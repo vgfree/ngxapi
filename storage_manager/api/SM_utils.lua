@@ -17,7 +17,8 @@ local function main_call(F, ...)
 end
 
 local function admin_verify(jwt_token)
-	local secret = "ownstor"
+	local shared_dict = ngx.shared.storehouse
+	local secret = shared_dict:get("am-secret")
 
 	local jwt_obj = jwt:verify(secret, jwt_token)
 	if not jwt_obj["verified"] then

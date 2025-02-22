@@ -13,19 +13,19 @@
 ### 输入参数
 
 
- 参数           |参数说明                 |  类型       |   示例         |是否允许为空|  限制条件
-----------------|-------------------------|-------------|----------------|------------|---------------------
-username        |用户名                   |string       |13917951002     |否          |手机号
+ 参数           |参数说明                 |  类型       |   示例          |是否允许为空|  限制条件
+----------------|-------------------------|-------------|-----------------|------------|---------------------
+username        |用户名                   |string       |459032139@qq.com |否          |邮箱地址
 
 ### 示例代码
 
-    DELETE /accountManager/v1/userReject HTTP/1.0
+    DELETE /accountManager/v1/userRemove HTTP/1.0
     Host:127.0.0.1:8090
     Content-Length:0
     Content-Type:application/json
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4MTc2MzJ9.SxT8X-7Xg0-ei17G1HtKzbB2ADR-TaVwOX7I0-PLCw4
 
-    {"username":"13917951002"}
+    {"username":"459032139@qq.com"}
 
 ### 返回body示例
 

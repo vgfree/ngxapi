@@ -39,6 +39,7 @@ local function handle()
 		gosay.out_message(MSG.fmt_err_message("MSG_ERROR_REQ_ARGS"))
 		return
 	end
+	username = string.gsub(username, "@", "..")
 
 	-->> 删除用户
 	local sql = string.format(sql_fmt["user_del"], username)

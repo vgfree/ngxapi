@@ -19,6 +19,14 @@ local function handle()
 		return
 	end
 	if #res ~= 0 then
+		for _, sub in ipairs(res) do
+			local org = sub["username"]
+			-- 从字符串末尾开始搜索 ..
+			local pos = string.find(org, "%.%.", nil, true)
+			if pos then
+				sub["username"] = string.sub(org, 1, pos - 2) .. "@" .. string.sub(org, pos + 1)
+			end
+		end
 		local msg = cjson.encode(res)
 		gosay.out_message(MSG.fmt_api_message(msg))
 	else

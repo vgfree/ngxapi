@@ -17,8 +17,9 @@ local function main_call(F, ...)
 end
 
 local function user_sign(username, password)
-	local secret = "ownstor"
-	local expiration_time = os.time() + 1800	--秒
+	local shared_dict = ngx.shared.storehouse
+	local secret = shared_dict:get("fm-secret")
+	local expiration_time = os.time() + 86400	--秒
 
 	local jwt_obj = {
 		header = {
@@ -37,7 +38,8 @@ local function user_sign(username, password)
 end
 
 local function user_verify(jwt_token)
-	local secret = "ownstor"
+	local shared_dict = ngx.shared.storehouse
+	local secret = shared_dict:get("fm-secret")
 
 	local jwt_obj = jwt:verify(secret, jwt_token)
 	if not jwt_obj["verified"] then
